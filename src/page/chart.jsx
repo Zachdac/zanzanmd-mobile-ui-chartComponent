@@ -11,16 +11,16 @@ class Chart extends React.Component{
 	getMoneyData(param){
 		return fetchMoneyChartData(param.spShopId)(param.token)
 			.then(data => ({
-				mainData: data.coordinateList.map(val => val.money),
-				xData: data.coordinateList.map(val => val.time)
+				mainData: (data ? data.coordinateList : []).map(val => val.money),
+				xData: (data ? data.coordinateList : []).map(val => val.time)
 			}))
 	}
 
 	getNumData(param){
 		return fetchNumChartData(param.spShopId)(param.token)
 			.then(data => ({
-				mainData: data.coordinateList.map(val => val.number),
-				xData: data.coordinateList.map(val => val.time)
+				mainData: (data ? data.coordinateList : []).map(val => val.number),
+				xData: (data ? data.coordinateList : []).map(val => val.time)
 			}))
 	}
 

@@ -7,7 +7,7 @@ module.exports = {
 	output: {
 		path: resolve(__dirname, '../dist'),
 		publicPath: '/',
-		filename: '[name].js'
+		filename: '[name][hash].js'
 	},
 	module: {
 		loaders: [
@@ -32,6 +32,16 @@ module.exports = {
 		}),
 		new webpack.LoaderOptionsPlugin({
 		    minimize: true
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+	      compress: {
+	        warnings: false
+	      }
+	    }),
+	    new webpack.DefinePlugin({
+		  "process.env": { 
+		     NODE_ENV: JSON.stringify("production") 
+		   }
 		})
 	],
 	devtool: 'cheap-source-map'

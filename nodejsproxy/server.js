@@ -26,8 +26,8 @@ var server = (router, handle) => {
         }
 	}
 
-	http.createServer(func).listen(8098)
-	console.log('--- http server at localhost:8098')
+	http.createServer(func).listen(8094)
+	console.log('--- http server at localhost:8094')
 }
 
 

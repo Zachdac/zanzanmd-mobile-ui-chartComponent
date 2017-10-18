@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-// const baseUrl = 'http://rapapi.org/mockjsdata/22494'
 // const baseUrl = 'http://localhost:8098/proxy'
-const baseUrl = 'http://getchart.ngrok.cc/proxy'
+const baseUrl = 'http://mt.qdxiao2.com/api-mt'
 
 export const handleParam = url => Object.assign(...url.substring(1, url.length).split('&').map(val => {
 	let obj = {}
@@ -10,18 +9,18 @@ export const handleParam = url => Object.assign(...url.substring(1, url.length).
 	return obj
 } ))
 
-// const fetchBase = url => id => token => axios({
-// 	method: 'GET',
-// 	url: `${baseUrl}${url}?spShopId=${id}`,
-// 	headers: {
-// 		// Authorization: token
-// 	}
-// })
-
 const fetchBase = url => id => token => axios({
 	method: 'GET',
-	url: `${baseUrl}?spShopId=${id}&token=${token}&path=${url}`
+	url: `${baseUrl}${url}?spShopId=${id}`,
+	headers: {
+		Authorization: token
+	}
 })
+
+// const fetchBase = url => id => token => axios({
+// 	method: 'GET',
+// 	url: `${baseUrl}?spShopId=${id}&token=${token}&path=${url}`
+// })
 
 export const fetchNumChartData = id => token => fetchBase('/report/v1/findDataForNumber')(id)(token).then(e => e.data.data)
 
