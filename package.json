@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node build/webpack.dev.config.js --inline",
-    "build": "webpack --config build/webpack.base.config.js",
-    "proxy": "node nodejsproxy/index.js"
+    "build": "webpack --config build/webpack.base.config.js"
   },
   "author": "illizac",
   "license": "ISC",
