@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// const baseUrl = 'http://localhost:8098/proxy'
-const baseUrl = 'http://mt.qdxiao2.com/api-mt'
+// const baseUrl = 'http://mt.qdxiao2.com/api-mt'
+const baseUrl = 'http://m.zanzanmd.cn/api-mt'
 
 export const handleParam = url => Object.assign(...url.substring(1, url.length).split('&').map(val => {
 	let obj = {}

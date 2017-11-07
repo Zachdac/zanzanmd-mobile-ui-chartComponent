@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>赞赞买单后台管理系统</title>
+    <style type="text/css">
+    reset {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .flexPub {
+        display: flex;
+        flex-direction: column;
+    }
+
+    body,
+    html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 13.33vw;
+    }
+
+    body #root,
+    html #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    body #root .chart-container,
+    html #root .chart-container {
+        font-size: 0.22rem;
+        color: #888888;
+        display: flex;
+        flex-direction: column;
+        background-color: #eee;
+        padding-top: .26rem;
+    }
+
+    body #root .chart-container .chart-title,
+    html #root .chart-container .chart-title {
+        padding: 0 0 .38rem .36rem;
+    }
+
+    body #root .chart-container .chart-content,
+    html #root .chart-container .chart-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    body #root .chart-container .chart-content .chart-wrap,
+    html #root .chart-container .chart-content .chart-wrap {
+        margin-bottom: .18rem;
+        background: #fff;
+    }
+
+    body #root .chart-container .chart-content .chart-wrap .sym-wrap,
+    html #root .chart-container .chart-content .chart-wrap .sym-wrap {
+        padding-left: .36rem;
+    }
+
+    body #root .chart-container .chart-content .chart-wrap .sym-wrap .chart-sym,
+    html #root .chart-container .chart-content .chart-wrap .sym-wrap .chart-sym {
+        text-align: center;
+        font-size: 0.24rem;
+        color: #555555;
+        font-weight: bold;
+        padding: .1rem .36rem .1rem 0;
+        border-bottom: 1px solid #dedede;
+    }
+
+    body #root .chart-container .chart-content .chart-wrap #moneyChart,
+    html #root .chart-container .chart-content .chart-wrap #moneyChart,
+    body #root .chart-container .chart-content .chart-wrap #numChart,
+    html #root .chart-container .chart-content .chart-wrap #numChart {
+        flex: 1;
+        height: 3rem;
+    }
+    </style>
+</head>
+
+<body>
+    <div id='root'>
+        <div class='chart-container'>
+            <div class='chart-title'>近30天交易趋势</div>
+            <div class='chart-content'>
+                <div class='chart-wrap'>
+                    <div class='sym-wrap'>
+                        <div class='chart-sym'>交易金额</div>
+                    </div>
+                    <div id='numChart' style="width: 100%;"></div>
+                </div>
+                <div class='chart-wrap'>
+                    <div class='sym-wrap'>
+                        <div class='chart-sym'>交易笔数</div>
+                    </div>
+                    <div id='moneyChart' style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/echarts/3.7.2/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+    <script type="text/javascript">
+
+    // var baseUrl = 'http://mt.qdxiao2.com/api-mt';
+    var baseUrl = 'http://m.zanzanmd.cn/api-mt';
+
+    var numChart = echarts.init(document.getElementById("numChart"));
+    var moneyChart = echarts.init(document.getElementById("moneyChart"))
+    $(function() {
+        init();
+
+    });
+
+    function init() {
+        updateChart([], numChart);
+        updateChart([], moneyChart);
+        updateData(numChart, "numChart");
+        updateData(moneyChart, "moneyChart");
+    }
+
+
+    function updateChart(arr, e) {
+
+        var mainArr = [];
+        var xArr = [];
+        for (var i = 0; i < arr.length; i++) {
+            mainArr.push(arr[i].money)
+            xArr.push(arr[i].time)
+        }
+
+        var data = {
+            mainData: mainArr,
+            xData: xArr
+        }
+        // 基于准备好的dom，初始化echarts实例
+
+
+        // 指定图表的配置项和数据
+        var option = {
+            color: ['#3eba6c'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '2%',
+                right: '2%',
+                bottom: '5%',
+                top: '10%',
+                containLabel: true
+            },
+            xAxis: [{
+                type: 'category',
+                data: data.xData,
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#888'
+                    }
+                }
+            }],
+            yAxis: [{
+                type: 'value',
+                splitLine: {
+                    show: false
+                },
+                nameTextStyle: {
+                    fontSize: 8
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#888'
+                    }
+                }
+            }],
+            dataZoom: [{
+                type: 'inside'
+            }],
+            series: [{
+                name: '交易金额',
+                type: 'line',
+                barWidth: '60%',
+                data: data.mainData,
+                smooth: true,
+                symbol: 'none',
+                lineStyle: {
+                    normal: {
+                        width: 1
+                    }
+                }
+            }]
+        }
+
+        // 使用刚指定的配置项和数据显示图表。
+        e.setOption(option);
+
+    }
+
+    function updateData(e, id) {
+        var _url = "";
+        console.log(_getQueryString("token"));
+        if (id == 'moneyChart') {
+            _url = baseUrl + "/report/v1/findDataForMoney?spShopId=" + _getQueryString("spShopId");
+
+        } else if (id == 'numChart') {
+            _url = baseUrl + "/report/v1/findDataForMoney?spShopId=" + _getQueryString("spShopId");
+        };
+        $.ajax({
+            type: 'GET',
+            headers: {
+                "Authorization": _getQueryString("token")
+            },
+            dataType: "json",
+            url: _url,
+            success: function(_data) {
+                // var _data_ = $.parseJSON(_data)
+                console.log(_data);
+                if (_data.code == "200") {
+                    if (id == 'moneyChart') {
+                        updateChart(_data.data.coordinateList, moneyChart);
+                    } else if (id == 'numChart') {
+                        updateChart(_data.data.coordinateList, numChart);
+                    }
+
+
+                }
+
+            }
+
+
+        });
+
+
+
+    }
+
+
+
+
+    function _getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    </script>
+</body>
+
+</html>
