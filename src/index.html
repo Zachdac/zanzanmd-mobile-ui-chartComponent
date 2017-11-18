@@ -124,14 +124,14 @@
     });
 
     function init() {
-        updateChart([], numChart);
-        updateChart([], moneyChart);
+        updateChart([], numChart, '交易笔数');
+        updateChart([], moneyChart, '交易金额');
         updateData(numChart, "numChart");
         updateData(moneyChart, "moneyChart");
     }
 
 
-    function updateChart(arr, e) {
+    function updateChart(arr, e， name) {
 
         var mainArr = [];
         var xArr = [];
@@ -193,7 +193,7 @@
                 type: 'inside'
             }],
             series: [{
-                name: '交易金额',
+                name,
                 type: 'line',
                 barWidth: '60%',
                 data: data.mainData,
@@ -233,9 +233,9 @@
                 console.log(_data);
                 if (_data.code == "200") {
                     if (id == 'moneyChart') {
-                        updateChart(_data.data.coordinateList, moneyChart);
+                        updateChart(_data.data.coordinateList, moneyChart, '交易金额');
                     } else if (id == 'numChart') {
-                        updateChart(_data.data.coordinateList, numChart);
+                        updateChart(_data.data.coordinateList, numChart, '交易笔数');
                     }
 
 
