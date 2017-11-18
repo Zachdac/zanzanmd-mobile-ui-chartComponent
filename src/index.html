@@ -98,13 +98,13 @@
                     <div class='sym-wrap'>
                         <div class='chart-sym'>交易金额</div>
                     </div>
-                    <div id='numChart' style="width: 100%;"></div>
+                    <div id='moneyChart' style="width: 100%;"></div>
                 </div>
                 <div class='chart-wrap'>
                     <div class='sym-wrap'>
                         <div class='chart-sym'>交易笔数</div>
                     </div>
-                    <div id='moneyChart' style="width: 100%;"></div>
+                    <div id='numChart' style="width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -124,19 +124,19 @@
     });
 
     function init() {
-        updateChart([], numChart, '交易笔数');
-        updateChart([], moneyChart, '交易金额');
+        updateChart([], numChart, 'number');
+        updateChart([], moneyChart, 'money');
         updateData(numChart, "numChart");
         updateData(moneyChart, "moneyChart");
     }
 
 
-    function updateChart(arr, e， name) {
+    function updateChart(arr, e, key) {
 
         var mainArr = [];
         var xArr = [];
         for (var i = 0; i < arr.length; i++) {
-            mainArr.push(arr[i].money)
+            mainArr.push(key == 'number' ? Number(arr[i][key]) * 100 : arr[i][key])
             xArr.push(arr[i].time)
         }
 
@@ -193,7 +193,7 @@
                 type: 'inside'
             }],
             series: [{
-                name,
+                name: key == 'number' ? '交易笔数' : '交易金额',
                 type: 'line',
                 barWidth: '60%',
                 data: data.mainData,
@@ -233,9 +233,9 @@
                 console.log(_data);
                 if (_data.code == "200") {
                     if (id == 'moneyChart') {
-                        updateChart(_data.data.coordinateList, moneyChart, '交易金额');
+                        updateChart(_data.data.coordinateList, moneyChart, 'money');
                     } else if (id == 'numChart') {
-                        updateChart(_data.data.coordinateList, numChart, '交易笔数');
+                        updateChart(_data.data.coordinateList, numChart, 'number');
                     }
 
 
