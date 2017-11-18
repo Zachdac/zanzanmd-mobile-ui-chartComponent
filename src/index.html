@@ -86,6 +86,9 @@
         flex: 1;
         height: 3rem;
     }
+    html #root .chart-container .chart-content .wrap{
+        padding: 0 .2rem;
+    }
     </style>
 </head>
 
@@ -98,13 +101,17 @@
                     <div class='sym-wrap'>
                         <div class='chart-sym'>交易金额</div>
                     </div>
-                    <div id='moneyChart' style="width: 100%;"></div>
+                    <div class = 'wrap'>
+                        <div id='moneyChart' style="width: 100%;"></div>
+                    </div>
                 </div>
                 <div class='chart-wrap'>
                     <div class='sym-wrap'>
                         <div class='chart-sym'>交易笔数</div>
                     </div>
-                    <div id='numChart' style="width: 100%;"></div>
+                    <div class = 'wrap'>
+                        <div id='numChart' style="width: 100%;"></div>
+                    </div>
                 </div>
             </div>
         </div>
